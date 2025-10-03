@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Camisetas</title>
+<style>
+:root{--accent:#25D366;--bg:#f6f7fb;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg)}
+header{background:#fff;padding:10px;display:flex;justify-content:center;border-bottom:1px solid #eee}
+.logo-img{max-height:60px;width:auto}
+main{padding:20px;max-width:1100px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:700px;margin:0 auto}
+.card{background:var(--card);border-radius:14px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);display:flex;flex-direction:column}
+.thumb{border-radius:10px;overflow:hidden;min-height:260px;display:flex;align-items:center;justify-content:center;cursor:zoom-in;background:#eee}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.thumb:hover img{transform:scale(1.2)}
+.info{padding:10px 4px 6px;flex:1;display:flex;flex-direction:column}
+.product-title{font-weight:700;font-size:16px;text-align:center;margin-bottom:8px}
+.btns{display:flex;justify-content:center}
+.btn-whats{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;background:var(--accent);color:#fff;border-radius:10px;text-decoration:none;font-weight:700}
+.btn-whats svg{flex-shrink:0}
+
+.whatsapp-fab{position:fixed;right:18px;bottom:18px;width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;box-shadow:0 10px 30px rgba(37,211,102,0.25);text-decoration:none;z-index:1000}
+footer{padding:20px;text-align:center;color:#666;font-size:13px}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr;gap:12px}.thumb{min-height:200px}.product-title{font-size:14px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}}
+
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:9999;flex-direction:column;padding:20px;overflow:hidden}
+#modal img{max-width:90%;max-height:70%;border-radius:12px;cursor:pointer}
+.nav-arrows{position:absolute;width:100%;display:flex;justify-content:space-between;top:50%;transform:translateY(-50%);padding:0 20px}
+.nav-arrows button{background:none;border:none;color:#fff;font-size:40px;cursor:pointer;user-select:none}
+.modal-info{margin-top:12px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.modal-info .btn-whats{width:auto;padding:10px 16px}
+.modal-title{color:#fff;font-weight:700;font-size:18px;text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://photos.fife.usercontent.google.com/pw/AP1GczOA6xXUxyL6KYCugdh1dMCTEI6EPitFHFhArZgMikAUd9eQCHm7wsW1qQ=w961-h961-s-no-gm?authuser=0" alt="Logo" class="logo-img">
+</header>
+
+<main>
+  <section class="grid" id="catalogue"></section>
+</main>
+
+<a class="whatsapp-fab" id="fab" href="#" target="_blank">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="28" height="28" fill="white"><path d="M16 .5C7.44.5.5 7.44.5 16c0 2.76.72 5.43 2.1 7.78L.5 31.5l7.93-2.09A15.4 15.4 0 0 0 16 31.5c8.56 0 15.5-6.94 15.5-15.5S24.56.5 16 .5zm0 28c-2.4 0-4.74-.63-6.8-1.83l-.49-.29-4.7 1.24 1.25-4.59-.32-.47a12.96 12.96 0 0 1-2-7.06c0-7.18 5.83-13 13-13s13 5.82 13 13c0 7.18-5.83 13-13 13zm7.16-9.76c-.39-.2-2.3-1.14-2.65-1.27-.36-.13-.62-.2-.88.2s-1.01 1.27-1.24 1.53c-.23.26-.46.29-.85.1-.39-.2-1.65-.61-3.15-1.95-1.16-1.03-1.94-2.3-2.17-2.69-.23-.39-.02-.6.17-.79.17-.17.39-.46.59-.69.2-.23.26-.39.39-.65.13-.26.07-.49-.03-.69-.1-.2-.88-2.14-1.21-2.94-.32-.78-.65-.68-.88-.69h-.75c-.26 0-.69.1-1.06.49-.36.39-1.39 1.36-1.39 3.32s1.42 3.85 1.62 4.12c.2.26 2.8 4.28 6.78 6 3.97 1.71 3.97 1.14 4.7 1.07.72-.07 2.3-.93 2.62-1.83.33-.91.33-1.69.23-1.83-.09-.13-.36-.23-.75-.42z"/></svg>
+</a>
+
+<footer>Feito rápido — troque imagens, referências e o número no topo do arquivo.</footer>
+
+<div id="modal">
+  <div class="nav-arrows">
+    <button id="prev">❮</button>
+    <button id="next">❯</button>
+  </div>
+  <img src="" alt="Produto">
+  <div class="modal-info">
+    <div class="modal-title"></div>
+    <a class="btn btn-whats" href="#" target="_blank"></a>
+  </div>
+</div>
+
+<script>
+const PHONE_NUMBER='5588999695989';
+const PREFILLED_MESSAGE=encodeURIComponent('Olá! Vi seu catálogo e quero mais informações sobre: ');
+
+const products=[
+  {title:'Camiseta Ref. 001', img:'https://img.freepik.com/psd-gratuitas/design-de-maquete-de-camiseta_23-2151947724.jpg?semt=ais_hybrid&w=740&q=80'},
+  {title:'Camiseta Ref. 002', img:'https://img.freepik.com/psd-gratuitas/design-de-maquete-de-camiseta_23-2151947724.jpg?semt=ais_hybrid&w=740&q=80'},
+  {title:'Camiseta Ref. 003', img:'https://img.freepik.com/psd-gratuitas/design-de-maquete-de-camiseta_23-2151947724.jpg?semt=ais_hybrid&w=740&q=80'},
+  {title:'Camiseta Ref. 004', img:'https://img.freepik.com/psd-gratuitas/design-de-maquete-de-camiseta_23-2151947724.jpg?semt=ais_hybrid&w=740&q=80'}
+];
+
+function whatsUrl(title){return `https://wa.me/${PHONE_NUMBER}?text=${PREFILLED_MESSAGE+encodeURIComponent(title)}`;}
+
+const container=document.getElementById('catalogue');
+products.forEach((p,i)=>{
+  const card=document.createElement('article');
+  card.className='card';
+  const thumb=document.createElement('div'); thumb.className='thumb';
+  const img=document.createElement('img'); img.src=p.img; img.alt=p.title;
+  img.addEventListener('click',()=>openModal(i));
+  thumb.appendChild(img);
+  const info=document.createElement('div'); info.className='info';
+  info.innerHTML=`<div class="product-title">${p.title}</div>`;
+  const btns=document.createElement('div'); btns.className='btns';
+  const btn=document.createElement('a'); btn.className='btn btn-whats'; btn.href=whatsUrl(p.title); btn.target='_blank'; btn.rel='noopener';
+  btn.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="white"><path d="M16 .5C7.44.5.5 7.44.5 16c0 2.76.72 5.43 2.1 7.78L.5 31.5l7.93-2.09A15.4 15.4 0 0 0 16 31.5c8.56 0 15.5-6.94 15.5-15.5S24.56.5 16 .5zm0 28c-2.4 0-4.74-.63-6.8-1.83l-.49-.29-4.7 1.24 1.25-4.59-.32-.47a12.96 12.96 0 0 1-2-7.06c0-7.18 5.83-13 13-13s13 5.82 13 13c0 7.18-5.83 13-13 13zm7.16-9.76c-.39-.2-2.3-1.14-2.65-1.27-.36-.13-.62-.2-.88.2s-1.01 1.27-1.24 1.53c-.23.26-.46.29-.85.1-.39-.2-1.65-.61-3.15-1.95-1.16-1.03-1.94-2.3-2.17-2.69-.23-.39-.02-.6.17-.79.17-.17.39-.46.59-.69.2-.23.26-.39.39-.65.13-.26.07-.49-.03-.69-.1-.2-.88-2.14-1.21-2.94-.32-.78-.65-.68-.88-.69h-.75c-.26 0-.69.1-1.06.49-.36.39-1.39 1.36-1.39 3.32s1.42 3.85 1.62 4.12c.2.26 2.8 4.28 6.78 6 3.97 1.71 3.97 1.14 4.7 1.07.72-.07 2.3-.93 2.62-1.83.33-.91.33-1.69.23-1.83-.09-.13-.36-.23-.75-.42z"/></svg> Falar no WhatsApp`;
+  btns.appendChild(btn);
+  card.appendChild(thumb); card.appendChild(info); card.appendChild(btns);
+  container.appendChild(card);
+});
+
+const fab=document.getElementById('fab');
+fab.href=`https://wa.me/${PHONE_NUMBER}?text=${PREFILLED_MESSAGE}`;
+
+const modal=document.getElementById('modal');
+const modalImg=modal.querySelector('img');
+const modalTitle=modal.querySelector('.modal-title');
+const modalBtn=modal.querySelector('.modal-info .btn-whats');
+let currentIndex=0;
+let startX=0;
+
+function openModal(i){currentIndex=i;updateModal();modal.style.display='flex';}
+
+function updateModal(){
+  const product=products[currentIndex];
+  modalImg.src=product.img;
+  modalTitle.textContent=product.title;
+  modalBtn.href=whatsUrl(product.title);
+  modalBtn.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="white"><path d="M16 .5C7.44.5.5 7.44.5 16c0 2.76.72 5.43 2.1 7.78L.5 31.5l7.93-2.09A15.4 15.4 0 0 0 16 31.5c8.56 0 15.5-6.94 15.5-15.5S24.56.5 16 .5zm0 28c-2.4 0-4.74-.63-6.8-1.83l-.49-.29-4.7 1.24 1.25-4.59-.32-.47a12.96 12.96 0 0 1-2-7.06c0-7.18 5.83-13 13-13s13 5.82 13 13c0 7.18-5.83 13-13 13zm7.16-9.76c-.39-.2-2.3-1.14-2.65-1.27-.36-.13-.62-.2-.88.2s-1.01 1.27-1.24 1.53c-.23.26-.46.29-.85.1-.39-.2-1.65-.61-3.15-1.95-1.16-1.03-1.94-2.3-2.17-2.69-.23-.39-.02-.6.17-.79.17-.17.39-.46.59-.69.2-.23.26-.39.39-.65.13-.26.07-.49-.03-.69-.1-.2-.88-2.14-1.21-2.94-.32-.78-.65-.68-.88-.69h-.75c-.26 0-.69.1-1.06.49-.36.39-1.39 1.36-1.39 3.32s1.42 3.85 1.62 4.12c.2.26 2.8 4.28 6.78 6 3.97 1.71 3.97 1.14 4.7 1.07.72-.07 2.3-.93 2.62-1.83.33-.91.33-1.69.23-1.83-.09-.13-.36-.23-.75-.42z"/></svg> Falar no WhatsApp`;
+}
+
+// Navegação
+document.getElementById('prev').addEventListener('click',(e)=>{e.stopPropagation();currentIndex=(currentIndex-1+products.length)%products.length;updateModal();});
+document.getElementById('next').addEventListener('click',(e)=>{e.stopPropagation();currentIndex=(currentIndex+1)%products.length;updateModal();});
+
+// Swipe
+modalImg.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;});
+modalImg.addEventListener('touchend',e=>{
+  let diff=startX-e.changedTouches[0].clientX;
+  if(diff>30){currentIndex=(currentIndex+1)%products.length;updateModal();}
+  else if(diff<-30){currentIndex=(currentIndex-1+products.length)%products.length;updateModal();}
+});
+
+modal.addEventListener('click',e=>{if(e.target===modal)modal.style.display='none';});
+</script>
+</body>
+</html>
+
